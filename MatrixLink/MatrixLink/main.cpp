@@ -2,6 +2,9 @@
 #include <fcntl.h>
 #include <io.h>
 #include <iomanip>
+#include <fstream>
+#include <iostream>
+#include "address.pb.h"
 
 
 int APIENTRY wWinMain(HINSTANCE hInstance,
@@ -20,6 +23,21 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 		FILE * fpout = _fdopen(hcout, "wt");
 		*stdout = *fpout;
 		std::ios_base::sync_with_stdio();           // 将iostream 流同c runtime lib 的stdio 同步，标准是同步的   
+	}
+
+	tutorial::Person person;
+	person.set_name("John Doe");
+	person.set_id(1234);
+	person.set_email("jdoe@example.com");
+	std::fstream output("myfile.txt", std::ios::out | std::ios::binary);
+	person.SerializeToOstream(&output);
+	output.close();
+	{
+		std::fstream input("myfile.txt", std::ios::in | std::ios::binary);
+		tutorial::Person person;
+		person.ParseFromIstream(&input);
+		std::cout << "Name: " << person.name() << std::endl;
+		std::cout << "E-mail: " << person.email() << std::endl;
 	}
 	FreeConsole();
 	return 0;
