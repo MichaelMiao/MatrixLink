@@ -24,6 +24,7 @@ Thumbs.db
 *.sbr
 *.dll
 obj/
+
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
@@ -49,3 +50,7 @@ UpgradeLog*.XML
 # Qt
 GeneratedFiles/
 *.exp
+
+! /tools/*
+!libprotobuf.lib
+!libproto*.lib
